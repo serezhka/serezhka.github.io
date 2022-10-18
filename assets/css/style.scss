@@ -1,0 +1,52 @@
+---
+---
+
+/*
+  If the number of TAB files has changed, the following variable is required.
+  And it must be defined before `@import`.
+*/
+$tab-count: {{ site.tabs | size | plus: 1 }}; // plus 1 for home tab
+
+@import "{{ site.theme }}";
+
+/* append your custom style below */
+
+.post-content {
+
+  .cv-certs-table {
+    width: 100%;
+    td {
+      white-space: break-spaces !important;
+    }
+    tr {
+      background-color: transparent !important;
+    }
+    .cv-img {
+      margin: 0.5rem auto !important;
+    }
+  }
+
+  .cv-img {
+    max-width: none;
+    display: block;
+    border-radius: 100px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat, no-repeat;
+    -moz-box-shadow: inset 0 0 20px #636161;
+    -webkit-box-shadow: inset 0 0 20px #636161;
+    box-shadow: inset 0 0 20px #636161;
+  }
+
+  .cv-img-clear {
+    @extend .cv-img;
+    border-radius: 0;
+    -moz-box-shadow: inset 0 0 20px #636161;
+    -webkit-box-shadow: inset 0 0 20px #636161;
+    box-shadow: inset 0 0 20px #636161;
+  }
+
+  em {
+    opacity: 60%;
+  }
+}
