@@ -2,8 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "mini_portile2"
-gem "jekyll-theme-chirpy", "~> 5.3", ">= 5.3.1"
+gem "jekyll-theme-chirpy", "~> 5.3", ">= 5.3.2"
 
 group :test do
   gem "html-proofer", "~> 3.18"
