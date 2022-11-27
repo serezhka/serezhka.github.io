@@ -2,7 +2,7 @@
 layout: post
 title: Run Java app on Raspberry Pi with IntelliJ Idea via ssh
 date: 2022-11-21
-categories: [Raspberry]
+categories: [Java]
 tags: [raspberry, java]
 ---
 
