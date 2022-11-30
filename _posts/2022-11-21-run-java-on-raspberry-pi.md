@@ -2,13 +2,15 @@
 layout: post
 title: Run Java app on Raspberry Pi with IntelliJ Idea via ssh
 date: 2022-11-21
+last_modified_at: 2022-11-25
 categories: [Java]
 tags: [raspberry, java]
 ---
 
 ## Intro
 
-TODO
+Let's try to run/debug java app on a remote host with IntelliJ Idea via ssh.
+For example, I will create a simple telegram bot and run it on my Raspberry pi
 
 ## Prerequisite
 
@@ -18,10 +20,10 @@ TODO
 
 ## Create simple telegram bot
 
-### Create new gradle project
-
 > Full project source code available [here](https://github.com/serezhka/hello-pi-tg-bot-example)
 {: .prompt-info }
+
+### Create new gradle project
 
 ```groovy
 plugins {
@@ -134,7 +136,7 @@ That's it! Now we are ready to run/debug our bot on Raspberry pi
 
 Put your settings and test connection
 
-![SSH Config](/assets/img/posts/2022-11-21/ssh_config.png){: .shadow width="972" height="589" .normal }
+![ssh Config](/assets/img/posts/2022-11-21/ssh_config.png){: .shadow width="972" height="589" .normal }
 _ssh config_
 
 ## Edit Run/Debug configurations
@@ -166,3 +168,7 @@ OpenJDK 64-Bit Server VM warning: Options -Xverify:none and -noverify were depre
 
 ![Bot Test](/assets/img/posts/2022-11-21/bot_test.jpg){: .shadow width="972" height="589" .normal }
 _Bot says hello_
+
+## Deploy telegram bot as linux init.d service
+
+Continue reading the next [blog post](/posts/springboot-app-linux-service-gradle-ssh)
