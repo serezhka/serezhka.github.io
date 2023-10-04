@@ -1,17 +1,18 @@
+<script src="{{ site.data.origin['cors'].jquery.js | relative_url }}"></script>
 <script>
-    $(function () {
-        $.ajax({
+    jQuery(function () {
+        jQuery.ajax({
             url: "https://views.whatilearened.today/views/github/{{ site.github.username }}/{{ site.github.username }}.github.io{{ page.url | replace: "/", "_" }}views.svg",
             type: "GET",
             dataType: "xml",
             success: function (svgXml) {
                 var views = $(svgXml).find("text").last().text();
                 console.log("Views count: " + views);
-                $("#pageviews em").text(views);
+                jQuery("#pageviews em").text(views);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Failed to get views count");
-                $("#pageviews").remove();
+                jQuery("#pageviews").remove();
             }
         });
     });

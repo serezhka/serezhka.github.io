@@ -1,9 +1,13 @@
 ---
 ---
 
-@import '{{ site.theme }}';
+@import 'main';
 
 /* append your custom style below */
+
+.nopopup {
+  pointer-events: none;
+}
 
 @import url("https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css");
 
@@ -20,6 +24,10 @@
     .cv-img img {
       margin: 0.5rem auto !important;
     }
+  }
+
+  .cv-img, .cv-img-clear {
+    pointer-events: none;
   }
 
   .cv-img img {

@@ -9,21 +9,21 @@ tail_includes:
   - comments
 ---
 
-{% assign lang = site.lang %}
+{% include lang.html %}
 
 <h1 data-toc-skip>{{ page.title }}</h1>
 
 <div class="post-meta text-muted">
     <!-- published date -->
     <span>
-      {{ site.data.locales[site.lang].post.posted }}
+      {{ site.data.locales[lang].post.posted }}
       {% include datetime.html date=page.date tooltip=true lang=lang %}
     </span>
 
     <!-- lastmod date -->
     {% if page.last_modified_at and page.last_modified_at != page.date %}
     <span>
-      {{ site.data.locales[site.lang].post.updated }}
+      {{ site.data.locales[lang].post.updated }}
       {% include datetime.html date=page.last_modified_at tooltip=true lang=lang %}
     </span>
     {% endif %}
@@ -31,7 +31,7 @@ tail_includes:
   {% if page.image %}
     {% capture src %}src="{{ page.image.path | default: page.image }}"{% endcapture %}
     {% capture class %}class="preview-img{% if page.image.no_bg %}{{ ' no-bg' }}{% endif %}"{% endcapture %}
-    {% capture alt %}alt="{{ page.image.alt | default: "Preview Image" }}"{% endcapture %}
+    {% capture alt %}alt="{{ page.image.alt | xml_escape | default: "Preview Image" }}"{% endcapture %}
 
     {% capture lqip %}
       {% if page.image.lqip %}

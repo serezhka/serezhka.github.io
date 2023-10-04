@@ -9,7 +9,7 @@ pin: true
 ## About me
 ---
 
-![Profile Image](/assets/img/profile.jpg){: .shadow width="100" .left .cv-img}
+![Profile Image](/assets/img/profile.jpg){: width="100" .left .cv-img}
 
 <br>
 My main direction – Java development
@@ -19,7 +19,7 @@ Enthusiastic, eager to explore new technologies, quickly assimilate new concepts
 ## Experience
 ---
 
-![T-Systems](/assets/img/posts/2022-10-12/t-systems-logo.png){: .shadow width="80" .right .cv-img}
+![T-Systems](/assets/img/posts/2022-10-12/t-systems-logo.png){: width="80" .right .cv-img}
 ### Deutsche Telekom IT Solutions
 _Java developer, April 2016 - present_
 
@@ -38,7 +38,7 @@ _Java developer, April 2016 - present_
   It consumes number of SOAP and REST services under the hood and provides convenient REST API \
   *#springframework* *#oracledb* *#maven*
 
-![Yandex LLC](/assets/img/posts/2022-10-12/yandex-logo.jpg){: .shadow width="80" .right .cv-img}
+![Yandex LLC](/assets/img/posts/2022-10-12/yandex-logo.jpg){: width="80" .right .cv-img}
 ### Yandex LLC
 _Java trainee, November 2010 - August 2011_
 
@@ -49,13 +49,13 @@ _Java trainee, November 2010 - August 2011_
 ## Courses, trainings & certs
 ---
 
-|![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: .shadow width="50" .cv-img}|Joker, International online Java conference <br> _October 2021_|
-|![Starstruck](/assets/img/posts/2022-10-12/starstruck-bronze.png){: .shadow width="50" .cv-img}|Created a repository that has 128 stars <br> _February 2020_|
-|![SAFe](/assets/img/posts/2022-10-12/safe_logo.png){: .shadow width="50" .cv-img-clear}|Certified SAFe 4 Practitioner (Scaled Agile Framework) <br> _December 2019_|
-|![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: .shadow width="50" .cv-img}|Joker, International Java conference in Russia <br> _October 2019_|
-|![OCP](/assets/img/posts/2022-10-12/ocp_logo.png){: .shadow width="50" .cv-img-clear}|Oracle Certified Professional, Java SE 8 Programmer <br> _December 2016_|
-|![OCA](/assets/img/posts/2022-10-12/oca_logo.png){: .shadow width="50" .cv-img-clear}|Oracle Certified Associate, Java SE 8 Programmer <br> _June 2016_|
-|![Java school](/assets/img/posts/2022-10-12/java_school_logo.jpg){: .shadow width="50" .cv-img}|T-Systems, Java School <br> _February 2016 - April 2016_|
+|![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: width="50" .cv-img}|Joker, International online Java conference <br> _October 2021_|
+|![Starstruck](/assets/img/posts/2022-10-12/starstruck-bronze.png){: width="50" .cv-img}|Created a repository that has 128 stars <br> _February 2020_|
+|![SAFe](/assets/img/posts/2022-10-12/safe_logo.png){: width="50" .cv-img-clear}|Certified SAFe 4 Practitioner (Scaled Agile Framework) <br> _December 2019_|
+|![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: width="50" .cv-img}|Joker, International Java conference in Russia <br> _October 2019_|
+|![OCP](/assets/img/posts/2022-10-12/ocp_logo.png){: width="50" .cv-img-clear}|Oracle Certified Professional, Java SE 8 Programmer <br> _December 2016_|
+|![OCA](/assets/img/posts/2022-10-12/oca_logo.png){: width="50" .cv-img-clear}|Oracle Certified Associate, Java SE 8 Programmer <br> _June 2016_|
+|![Java school](/assets/img/posts/2022-10-12/java_school_logo.jpg){: width="50" .cv-img}|T-Systems, Java School <br> _February 2016 - April 2016_|
 {: .cv-certs-table }
 
 ## Projects
