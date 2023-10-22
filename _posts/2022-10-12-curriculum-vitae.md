@@ -1,10 +1,31 @@
 ---
-layout: post
+layout: cv
+style: cv
 title: Curriculum Vitae
 date: 2022-10-12
 tags: [cv]
 pin: true
 ---
+
+[<i class="fa-solid fa-file-pdf"></i>]({{ site.url }}/assets/pdf/sergei_fedorov_cv.pdf)
+
+<!---
+<div class="cv-header">
+  <div class="row">
+    <div class="column">
+      <h2>Sergei Fedorov</h2>
+      <p>Senior Java Developer</p>
+    </div>
+    <div class="column cv-contacts">
+      <p><i class="far fa-envelope" title="Email"></i> <a href="mailto:{{ site.social.email }}"
+                                                           target="_blank">{{ site.social.email | escape }}</a></p>
+      <p><i class="fab fa-telegram" title="Telegram"></i> <a href="https://t.me/srzhka"
+              target="_blank">t.me/srzhka</a></p>
+      <p><i class="fas fa-map-marker-alt" title="Location"></i> Greece, Thessaloniki</p>
+    </div>
+  </div>
+</div>
+-->
 
 ## About me
 ---
@@ -69,7 +90,7 @@ java-airplay-server [![GitHub forks](https://img.shields.io/github/forks/serezhk
 [![GitHub stars](https://img.shields.io/github/stars/serezhka/java-airplay-server?style=social&label=Star&maxAge=2592000)](https://GitHub.com/serezhka/java-airplay-server/stargazers/) <br>
 java-airplay-server-examples [![GitHub forks](https://img.shields.io/github/forks/serezhka/java-airplay-server-examples?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/serezhka/java-airplay-server-examples/network/)
 [![GitHub stars](https://img.shields.io/github/stars/serezhka/java-airplay-server-examples?style=social&label=Star&maxAge=2592000)](https://GitHub.com/serezhka/java-airplay-server-examples/stargazers/) <br>
-{:  style="text-align: right;"}
+{:  style="text-align: right; font-size: 0.8rem"}
 
 This project was inspired by idea to mirror mobile phone screen to car display without buying additional hardware.
 I have tried to implement this for the android first and later for ios. I analyzed the traffic between the iPhone
