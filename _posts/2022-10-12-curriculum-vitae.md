@@ -3,6 +3,7 @@ layout: cv
 style: cv
 title: Curriculum Vitae
 date: 2022-10-12
+last_modified_at: 2023-10-22
 tags: [cv]
 pin: true
 ---
@@ -70,6 +71,7 @@ _Java trainee, November 2010 - August 2011_
 ## Courses, trainings & certs
 ---
 
+|![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: width="50" .cv-img}|Joker, International online Java conference <br> _October 2023_|
 |![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: width="50" .cv-img}|Joker, International online Java conference <br> _October 2021_|
 |![Starstruck](/assets/img/posts/2022-10-12/starstruck-bronze.png){: width="50" .cv-img}|Created a repository that has 128 stars <br> _February 2020_|
 |![SAFe](/assets/img/posts/2022-10-12/safe_logo.png){: width="50" .cv-img-clear}|Certified SAFe 4 Practitioner (Scaled Agile Framework) <br> _December 2019_|
