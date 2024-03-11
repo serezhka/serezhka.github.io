@@ -61,7 +61,11 @@ tail_includes:
           <em>
             {% if authors %}
               {% for author in authors %}
-                <a href="{{ site.data.authors[author].url }}">{{ site.data.authors[author].name }}</a>
+                {% if site.data.authors[author].url -%}
+                  <a href="{{ site.data.authors[author].url }}">{{ site.data.authors[author].name }}</a>
+                {%- else -%}
+                  {{ site.data.authors[author].name }}
+                {%- endif %}
                 {% unless forloop.last %}{{ '</em>, <em>' }}{% endunless %}
               {% endfor %}
             {% else %}
@@ -70,15 +74,24 @@ tail_includes:
           </em>
         </span>
 
-        <!-- page views -->
-        {% include page-views-counter.liquid page=page %}
+        <div>
+          <!-- pageviews -->
+          {% include page-views-counter.liquid page=page %}
 
-        <!-- read time -->
-        {% include read-time.html content=content prompt=true lang=lang %}
+          {% if site.pageviews.provider and site.analytics[site.pageviews.provider].id %}
+            <span>
+              <em id="pageviews">
+                <i class="fas fa-spinner fa-spin small"></i>
+              </em>
+              {{ site.data.locales[lang].post.pageview_measure }}
+            </span>
+          {% endif %}
+
+          <!-- read time -->
+          {% include read-time.html content=content prompt=true lang=lang %}
+        </div>
       </div>
-      <!-- .d-flex -->
     </div>
-    <!-- .post-meta -->
   </header>
 
   <div class="content">
