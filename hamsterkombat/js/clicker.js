@@ -12,11 +12,10 @@
             clientY: 400,
         });
         const energy = parseInt(document.getElementsByClassName("user-tap-energy")[0].getElementsByTagName("p")[0].textContent.split(" / ")[0]);
-        console.log('energy: ', energy)
-        if (energy > 200) {
+        if (energy > 50) {
             document.getElementsByClassName('user-tap-button')[0].dispatchEvent(evt1);
             document.getElementsByClassName('user-tap-button')[0].dispatchEvent(evt2);
         }
         return fn;
-    })(), 100);
+    })(), 50);
 })();
