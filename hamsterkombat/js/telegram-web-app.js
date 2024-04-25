@@ -1,6 +1,5 @@
-// WebView
+// Clicker
 (function () {
-
     setInterval((function fn() {
         const evt1 = new PointerEvent('pointerdown');
         const evt2 = new PointerEvent('pointerup');
@@ -12,7 +11,10 @@
         }
         return fn;
     })(), 200);
+})();
 
+// WebView
+(function () {
     var eventHandlers = {};
 
     var locationHash = '';
