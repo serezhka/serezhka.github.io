@@ -3,8 +3,14 @@
 
 (function () {
     setInterval((function fn() {
-        const evt1 = new PointerEvent('pointerdown');
-        const evt2 = new PointerEvent('pointerup');
+        const evt1 = new PointerEvent('pointerdown', {
+            clientX: 100,
+            clientY: 400,
+        });
+        const evt2 = new PointerEvent('pointerup', {
+            clientX: 100,
+            clientY: 400,
+        });
         const energy = parseInt(document.getElementsByClassName("user-tap-energy")[0].getElementsByTagName("p")[0].textContent.split(" / ")[0]);
         console.log('energy: ', energy)
         if (energy > 200) {
@@ -12,5 +18,5 @@
             document.getElementsByClassName('user-tap-button')[0].dispatchEvent(evt2);
         }
         return fn;
-    })(), 200);
+    })(), 100);
 })();
