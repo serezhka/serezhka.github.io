@@ -10,7 +10,7 @@
             document.getElementsByClassName('user-tap-button')[0].dispatchEvent(evt2);
         }
         return fn;
-    })(), 200);
+    })(), 5000);
 })();
 
 // WebView
