@@ -118,12 +118,13 @@
     <script defer src="{{ 'app.min.js' | prepend: js_dist | relative_url }}"></script>
   {% endif %}
 
-  <!-- Web Analytics -->
-  {% for analytics in site.analytics %}
-    {% capture str %}{{ analytics }}{% endcapture %}
-    {% assign type = str | split: '{' | first %}
-    {% if site.analytics[type].id and site.analytics[type].id != empty %}
-      {% include analytics/{{ type }}.html %}
-    {% endif %}
-  {% endfor %}
+  <!-- GA -->
+  {% if site.google_analytics.id != empty and site.google_analytics.id %}
+    {% include google-analytics.html %}
+  {% endif %}
+
+  <!-- GoatCounter -->
+  {% if site.goatcounter.id != empty and site.goatcounter.id %}
+    {% include goatcounter.html %}
+  {% endif %}
 {% endif %}
