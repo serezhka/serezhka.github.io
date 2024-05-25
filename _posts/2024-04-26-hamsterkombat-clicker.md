@@ -2,6 +2,7 @@
 layout: post
 title: Launch Hamster Kombat in Telegram Web + Auto Click
 date: 2024-04-26
+last_modified_at: 2024-05-25
 categories: [Hack]
 tags: [telegram, hamsterkombat]
 image:
@@ -46,6 +47,10 @@ Object.defineProperty(WebApp, 'platform', {
 ![Replace platform](/assets/img/posts/2024-04-26/replace_platform.png){: .shadow width="450" height="450" .normal }
 4. Refresh the page, launch the game, go to Console, select javascript context "clicker (hamsterkombat.io)"
 5. Copy and paste the following [script](#auto-click-script) to the console and press Enter
+
+## Option 3: Safari Local Overrides
+
+![Safari](/assets/img/posts/2024-04-26/safari.png){: .shadow width="450" height="450" .normal }
 
 ## Auto Click script
 
