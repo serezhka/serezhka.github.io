@@ -18,7 +18,7 @@ Let's try to launch it in Chrome browser and automate the click process.
 ## Option 1: Use Resource Override extension
 
 1. Download [Resource Override](https://chromewebstore.google.com/detail/pkoacgokdfckfpndoffpifphamojphii) extension for Chrome browser
-2. Add new rule: From https://hamsterkombat.io/js/telegram-web-app.js -> To https://serezhka.github.io/hamsterkombat/js/telegram-web-app.js
+2. Add new rule: From https://hamsterkombat.io/js/telegram-web-app.js?v=7.6 -> To https://serezhka.github.io/hamsterkombat/js/telegram-web-app.js
 3. Launch Telegram Web, open [Hamster Kombat](https://web.telegram.org/k/#@hamster_kombat_bot) game
 4. Open Chrome DevTools, go to Console, select javascript context "clicker (hamsterkombat.io)"
 5. Copy and paste the following [script](#auto-click-script) to the console and press Enter
@@ -65,7 +65,7 @@ Object.defineProperty(WebApp, 'platform', {
             document.getElementsByClassName('user-tap-button')[0].dispatchEvent(evt2);
         }
         return fn;
-    })(), 50);
+    })(), 950);
 })();
 ```
 
