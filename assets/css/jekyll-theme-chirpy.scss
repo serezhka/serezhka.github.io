@@ -10,3 +10,12 @@
 /* append your custom style below */
 
 @import url("https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css");
+
+.fa-fork {
+  display: inline-block;
+  font: normal normal normal 14px/1 ForkAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
