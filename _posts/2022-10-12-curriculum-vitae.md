@@ -3,7 +3,7 @@ layout: cv
 style: cv
 title: Curriculum Vitae
 date: 2022-10-12
-last_modified_at: 2023-10-22
+last_modified_at: 2025-07-16
 tags: [cv]
 pin: true
 ---
@@ -41,11 +41,21 @@ Enthusiastic, eager to explore new technologies, quickly assimilate new concepts
 ## Experience
 ---
 
-![T-Systems](/assets/img/posts/2022-10-12/t-systems-logo.png){: width="80" .right .cv-img}
+![DT](/assets/img/posts/2022-10-12/dt-logo.png){: width="80" .right .cv-img}
 ### Deutsche Telekom IT Solutions
 _Java developer, April 2016 - present_
 
-- The current project is "API Service Factory" designed to decouple IT systems in the company and provide a new way to
+- ++DX is Deutsche Telekom’s internal developer platform designed to streamline software engineering. 
+  It brings together all the tools, environments, and best practices developers need into one cohesive experience \
+  *#python* *#ai* *#claude* *#anthropic* *#bedrock* *#google-adk* *#mcp* *#llm*
+
+- The D.O.T. (Digital Omnichannel Transformation) project is a central component of Deutsche Telekom's 
+  transformation journey. The project's goals include digitizing customer-facing channels and modernizing
+  IT systems and platforms to meet current customer expectations for a simple, personalized, digital experience \
+  *#springframework* *#jib* *#docker* *#wiremock* *#gatling* *#restassured* *#gradle* *#gitlabcicd* *#mongodb*
+  *#kubernetes* *#aws* *#grafana*
+
+- "API Service Factory" project was designed to decouple IT systems in the company and provide a new way to
   build new modern applications, by implementing a set of API services.
   Project applies a Scaled Agile Approach (SAFe) \
   *#springframework* *#jib* *#docker* *#wiremock* *#gatling* *#restassured* *#gradle* *#gitlabcicd* *#mongodb*
@@ -72,8 +82,10 @@ _Java trainee, November 2010 - August 2011_
 ---
 
 |![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: width="50" .cv-img}|Joker, International online Java conference <br> _October 2023_|
+|![Hackathon](/assets/img/posts/2022-10-12/ai-hackathon.png){: width="50" .cv-img}|DT IT's AI Hackathon 1<sup>st</sup> place 🏆 <br> _June 2023_|
 |![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: width="50" .cv-img}|Joker, International online Java conference <br> _October 2021_|
 |![Starstruck](/assets/img/posts/2022-10-12/starstruck-bronze.png){: width="50" .cv-img}|Created a repository that has 128 stars <br> _February 2020_|
+|![Arctic-code-vault](/assets/img/posts/2022-10-12/arctic-code-vault.png){: width="50" .cv-img-clear}|Contributed code to 3 repositories in the 2020 GitHub Archive Program <br> _February 2020_|
 |![SAFe](/assets/img/posts/2022-10-12/safe_logo.png){: width="50" .cv-img-clear}|Certified SAFe 4 Practitioner (Scaled Agile Framework) <br> _December 2019_|
 |![Joker](/assets/img/posts/2022-10-12/joker_logo.jpg){: width="50" .cv-img}|Joker, International Java conference in Russia <br> _October 2019_|
 |![OCP](/assets/img/posts/2022-10-12/ocp_logo.png){: width="50" .cv-img-clear}|Oracle Certified Professional, Java SE 8 Programmer <br> _December 2016_|
