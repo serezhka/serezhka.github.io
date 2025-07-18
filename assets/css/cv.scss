@@ -40,10 +40,6 @@
     }
   }
 
-  .cv-img, .cv-img-clear {
-    pointer-events: none;
-  }
-
   .cv-img {
     max-width: none;
     border-radius: 100px !important;
@@ -58,6 +54,10 @@
   .cv-img-clear img {
     @extend .cv-img;
     border-radius: 0;
+  }
+
+  a.popup.img-link {
+    pointer-events: none;
   }
 
   em {
