@@ -46,8 +46,11 @@ Enthusiastic, eager to explore new technologies, quickly assimilate new concepts
 _Java developer, April 2016 - present_
 
 - ++DX is Deutsche Telekom’s internal developer platform designed to streamline software engineering. 
-  It brings together all the tools, environments, and best practices developers need into one cohesive experience \
-  *#python* *#ai* *#claude* *#anthropic* *#bedrock* *#google-adk* *#mcp* *#llm*
+  It brings together all the tools, environments, and best practices developers need into one cohesive experience. 
+  Main contribution: **PSAHelper** — an MCP server (Python/FastMCP) that gives AI assistants (Copilot, Claude Code, etc.) 
+  structured access to Privacy and Security Assessment (PSA) requirements and tools to verify GitLab repositories for compliance; 
+  integrates with Telecontext; runs on AWS ECS (Fargate), uses DynamoDB and Claude via Bedrock for verification \
+  *#python* *#ai* *#claude* *#anthropic* *#bedrock* *#google-adk* *#mcp* *#llm* *#fastmcp* *#docker* *#aws*
 
 - The D.O.T. (Digital Omnichannel Transformation) project is a central component of Deutsche Telekom's 
   transformation journey. The project's goals include digitizing customer-facing channels and modernizing
