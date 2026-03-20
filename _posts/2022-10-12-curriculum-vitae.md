@@ -9,34 +9,28 @@ pin: true
 ---
 
 [<i class="fa-solid fa-file-pdf"></i>]({{ site.url }}/assets/pdf/sergei_fedorov_cv.pdf)
+<a href="#" class="cv-print-link" onclick="window.print(); return false;" title="Print" aria-label="Print"><i class="fa-solid fa-print"></i></a>
 
-<!---
-<div class="cv-header">
-  <div class="row">
-    <div class="column">
+<div class="cv-top">
+  <div class="cv-top__left">
+    <div class="cv-top__photo">
+      <img src="/assets/img/profile.jpg" alt="Sergei Fedorov" width="100" height="100" class="cv-img" />
+    </div>
+    <div class="cv-top__name">
       <h2>Sergei Fedorov</h2>
       <p>Senior Java Developer</p>
     </div>
-    <div class="column cv-contacts">
-      <p><i class="far fa-envelope" title="Email"></i> <a href="mailto:{{ site.social.email }}"
-                                                           target="_blank">{{ site.social.email | escape }}</a></p>
-      <p><i class="fab fa-telegram" title="Telegram"></i> <a href="https://t.me/srzhka"
-              target="_blank">t.me/srzhka</a></p>
-      <p><i class="fas fa-map-marker-alt" title="Location"></i> Greece, Thessaloniki</p>
+    <div class="cv-top__about">
+      <p>My main direction – Java development</p>
+      <p>Enthusiastic, eager to explore new technologies, quickly assimilate new concepts and ideas</p>
     </div>
   </div>
+  <div class="cv-top__right cv-contacts">
+    <p><i class="far fa-envelope" title="Email"></i> <a href="mailto:{{ site.social.email }}" target="_blank">{{ site.social.email | escape }}</a></p>
+    <p><i class="fab fa-telegram" title="Telegram"></i> <a href="https://t.me/srzhka" target="_blank">t.me/srzhka</a></p>
+    <p><i class="fas fa-map-marker-alt" title="Location"></i> Greece, Thessaloniki</p>
+  </div>
 </div>
--->
-
-## About me
----
-
-![Profile Image](/assets/img/profile.jpg){: width="100" .left .cv-img}
-
-<br>
-My main direction – Java development
-
-Enthusiastic, eager to explore new technologies, quickly assimilate new concepts and ideas
 
 ## Experience
 ---
@@ -80,6 +74,8 @@ _Java trainee, November 2010 - August 2011_
 - Development of database testing tool. It runs various CRUD scenarios with interested data structures on target db,
   generates detailed report with graphs \
   *#springframework* *#cassandra* *#mongodb* *#redis* *#postgresql* *#neo4j* *#ant* *#maven* *#linux*
+
+<div class="cv-page-break-after" aria-hidden="true"></div>
 
 ## Courses, trainings & certs
 ---

@@ -1,0 +1,12 @@
+{
+  "name": "serezhka-github-io",
+  "private": true,
+  "scripts": {
+    "cv-pdf": "node scripts/generate-cv-pdf.js",
+    "cv-pdf-analyze": "node scripts/analyze-cv-pdf.js"
+  },
+  "devDependencies": {
+    "pdf-parse": "^2.4.5",
+    "playwright": "^1.49.0"
+  }
+}
