@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#1a1025"/>
+  <meta name="description" content="Намек понял — вечерняя игра со словами 18+"/>
+  <title>Намек понял</title>
+  <style>
+    :root {
+      --bg: #120a18;
+      --surface: #1f1428;
+      --text: #f4eefe;
+      --muted: #9a87ad;
+      --accent: #e040a8;
+      --accent-dim: #8b2d6a;
+      --num: #7c5cbf;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1.25rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(224, 64, 168, 0.15), transparent),
+        var(--bg);
+    }
+    .wrap {
+      max-width: 28rem;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: clamp(1.35rem, 4.5vw, 1.6rem);
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 0.35rem;
+      letter-spacing: 0.02em;
+    }
+    .sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      min-height: 3.25rem;
+    }
+    .num {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 10px;
+      background: linear-gradient(145deg, var(--num), #4a3578);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .word {
+      font-size: clamp(1rem, 3.8vw, 1.15rem);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    button {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dim) 100%);
+      box-shadow: 0 4px 20px rgba(224, 64, 168, 0.35);
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    button:active {
+      transform: scale(0.98);
+      filter: brightness(1.05);
+    }
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .hint {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Намек понял</h1>
+    <p class="sub">18+ · объясни слово без «опасных» слов или покажи жестами</p>
+    <div class="list" id="list" aria-live="polite"></div>
+    <button type="button" id="next">Следующие слова</button>
+    <p class="hint">Слова перемешаны случайно · на телефоне лучше держать вертикально</p>
+  </div>
+  <script>
+(function () {
+  /** Пул слов 18+ (игра «намёк / намек понял»): двусмысленности, сленг, намёки. */
+  const POOL = [
+    "флирт", "интим", "страсть", "соблазн", "искушение", "свидание вслепую",
+    "ночной клуб", "после вечеринки", "одна ночь", "случайная встреча",
+    "химия между", "искры", "напряжение", "обнимашки", "поцелуй",
+    "французский поцелуй", "кусаться", "кусаться за ушко", "шепот на ухо",
+    "подкат", "пикап", "комплимент", "взгляд", "улыбка", "кокетство",
+    "мини-юбка", "декольте", "бельё", "кружево", "шёлк", "чулки",
+    "ванная свечи", "джакузи", "массаж", "расслабиться", "SPA",
+    "50 оттенков", "ролевая игра", "костюм", "маска", "наручники (шуточные)",
+    "правда или действие", "никогда не…", "я никогда не…", "бутылочка",
+    "взрослый контент", "только для взрослых", "родительский контроль выкл",
+    "Netflix and chill", "остаться на ночь", "завтрак в постель",
+    "соседи слышат", "тихо, родители дома", "закрыть дверь",
+    "горячее", "пикантное", "острое", "перчик", "персик", "вишенка",
+    "банан", "огурец", "колбаса", "кремовый", "влажный", "липкий",
+    "долго", "быстро", "медленно", "нежно", "грубо (в меру)", "доминант",
+    "сабмиссив", "фетиш", "слабое место", "слабость", "табу", "фантазия",
+    "секрет", "тайная мечта", "bucket list", "один раз в жизни",
+    "запретный плод", "чужая жена (из анекдота)", "любовница (кино)",
+    "измена (в сериале)", "ревность", "свободные отношения", "полигамия (обсуждение)",
+    "стриптиз", "танец", "лэп-дэнс", "клубная культура", "VIP-зона",
+    "коктейль «Секс на пляже»", "шот", "опьянение (лёгкое)", "утро после",
+    "прогулка шагом", "прогулка поздно вечером", "тёмный переулок (романтика)",
+    "звонок в дверь", "«это не то, что ты думаешь»", "случайно зашёл",
+    "совместный душ", "одно полотенце на двоих", "забыла дома",
+    "случайно увидел", "эксклюзив в подписке", "подписка Only… (шутка)",
+    "рейтинг 18+", "цензура", "размытый кадр", "запикано",
+    "первый раз", "опытный", "новичок", "учитель и ученица (ролевая)",
+    "доктор и пациент", "начальник и секретарь", "косплей",
+    "звукоизоляция", "беруши", "не буди", "тихий час",
+    "постельные сцены", "занавески", "свет приглушить", "свечи",
+    "романтика", "страсть в кино", "любовный треугольник", "любовь с первого…",
+    "карма сутра (название)", "Кама (без продолжения)", "тантра (слово)",
+    "границы", "согласие", "стоп-слово", "после обсудим",
+    "тест на совместимость", "гороскоп любви", "Tinder", "свайп вправо",
+    "матч", "суперлайк", "первое сообщение", "котики в профиле",
+    "рыба в профиле", "«ищу серьёзные»", "«без обязательств»",
+    "френдзона", "бенефиты дружбы", "сложные отношения", "оно само",
+    "алкоголь снимает тормоза", "на смелости", "правда под градусом"
+  ];
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  let deck = shuffle(POOL);
+  let pos = 0;
+
+  function takeFive() {
+    const out = [];
+    for (let i = 0; i < 5; i++) {
+      if (pos >= deck.length) {
+        deck = shuffle(POOL);
+        pos = 0;
+      }
+      out.push(deck[pos++]);
+    }
+    return out;
+  }
+
+  const listEl = document.getElementById("list");
+  const nextBtn = document.getElementById("next");
+
+  function render() {
+    const words = takeFive();
+    listEl.innerHTML = words
+      .map(
+        (w, i) =>
+          `<div class="row"><span class="num" aria-hidden="true">${i + 1}</span><span class="word">${escapeHtml(w)}</span></div>`
+      )
+      .join("");
+  }
+
+  function escapeHtml(s) {
+    const d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  nextBtn.addEventListener("click", render);
+  render();
+})();
+  </script>
+</body>
+</html>
