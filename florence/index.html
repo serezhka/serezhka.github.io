@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#3d2f24"/>
+  <meta name="description" content="Интерактивная винтажная карта Флоренции"/>
+  <title>Флоренция — винтажная карта</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #2a1f18;
+      --ink-soft: #4a3d32;
+      --paper: #e8dcc4;
+      --paper-dark: #d4c4a8;
+      --river: #8b9aab;
+      --accent: #8b3a2f;
+      --gold: #b8860b;
+      --shadow: rgba(42, 31, 24, 0.35);
+      font-family: "Spectral", "Times New Roman", Times, serif;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #1a1510;
+      color: var(--ink);
+    }
+    body {
+      padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+        max(1.25rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+      background:
+        radial-gradient(ellipse 120% 80% at 50% 0%, #3d3228 0%, #1a1510 55%);
+    }
+    .page {
+      max-width: 52rem;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+    header h1 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(1.75rem, 5vw, 2.35rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--paper);
+      margin: 0 0 0.35rem;
+      text-shadow: 0 2px 12px var(--shadow);
+    }
+    header .subtitle {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--paper-dark);
+      filter: brightness(1.15);
+      margin: 0;
+    }
+    .frame {
+      position: relative;
+      border-radius: 4px;
+      padding: 12px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, transparent 40%),
+        linear-gradient(180deg, #c9b896 0%, #a89472 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.15),
+        0 12px 40px rgba(0, 0, 0, 0.45),
+        0 2px 0 #6b5a42;
+    }
+    .frame-inner {
+      border: 2px solid var(--ink-soft);
+      border-radius: 2px;
+      background-color: var(--paper);
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      overflow: hidden;
+      box-shadow: inset 0 0 80px rgba(139, 115, 85, 0.25);
+    }
+    .map-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      vertical-align: middle;
+    }
+    /* clickable landmark pins — SVG uses class landmark-hit */
+    .landmark-hit {
+      cursor: pointer;
+      fill: rgba(139, 58, 47, 0.35);
+      stroke: var(--accent);
+      stroke-width: 2;
+      transition: fill 0.2s ease, transform 0.2s ease;
+    }
+    .landmark-hit:hover,
+    .landmark-hit:focus {
+      fill: rgba(139, 58, 47, 0.55);
+      outline: none;
+    }
+    .landmark-hit:focus-visible {
+      stroke: var(--gold);
+      stroke-width: 3;
+    }
+    .pin-ring {
+      pointer-events: none;
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 1.2;
+      opacity: 0.7;
+    }
+    .pin-dot {
+      pointer-events: none;
+      fill: var(--accent);
+      stroke: var(--paper);
+      stroke-width: 1;
+    }
+    .label {
+      pointer-events: none;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 11px;
+      font-weight: 600;
+      fill: var(--ink);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .river-label {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 13px;
+      font-style: italic;
+      fill: var(--ink-soft);
+      opacity: 0.85;
+    }
+    .compass {
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .hint-bar {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.88rem;
+      color: rgba(232, 220, 196, 0.75);
+      font-style: italic;
+    }
+
+    /* Modal */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(26, 21, 16, 0.72);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+    }
+    .backdrop.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .card {
+      position: relative;
+      max-width: 26rem;
+      width: 100%;
+      max-height: min(85vh, 32rem);
+      overflow-y: auto;
+      padding: 1.5rem 1.35rem 1.35rem;
+      background:
+        linear-gradient(180deg, #f2ead8 0%, #e8dcc4 100%);
+      border: 1px solid var(--ink-soft);
+      border-radius: 3px;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      transform: translateY(12px) scale(0.98);
+      transition: transform 0.28s ease;
+    }
+    .backdrop.is-open .card {
+      transform: translateY(0) scale(1);
+    }
+    .card h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin: 0 0 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      line-height: 1.25;
+      padding-right: 2rem;
+    }
+    .card .lead {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--ink-soft);
+      margin: 0 0 0.85rem;
+    }
+    .card p {
+      margin: 0 0 0.75rem;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+    .card-close {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.65rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 1px solid var(--ink-soft);
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.35);
+      color: var(--ink);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+    .card-close:hover {
+      background: rgba(139, 58, 47, 0.15);
+    }
+    .card-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Firenze</h1>
+      <p class="subtitle">Винтажная карта центра · XVIII век, воображаемый гравёр</p>
+    </header>
+
+    <div class="frame">
+      <div class="frame-inner">
+        <svg class="map-svg" viewBox="0 0 800 520" role="img" aria-labelledby="mapTitle mapDesc">
+          <title id="mapTitle">Схематическая карта исторического центра Флоренции</title>
+          <desc id="mapDesc">Река Арно, кварталы и отметки достопримечательностей. Клик по кругу открывает описание.</desc>
+
+          <defs>
+            <linearGradient id="gOltrarno" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#dccfb0"/>
+              <stop offset="100%" stop-color="#c9b896"/>
+            </linearGradient>
+            <linearGradient id="gCentro" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#dfd2b8"/>
+              <stop offset="100%" stop-color="#cbbfa2"/>
+            </linearGradient>
+            <linearGradient id="gRiver" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#a8b8c8"/>
+              <stop offset="50%" stop-color="#8b9aab"/>
+              <stop offset="100%" stop-color="#7a8898"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Blocks / quarters -->
+          <path fill="url(#gOltrarno)" stroke="#8b7355" stroke-width="1"
+            d="M120 280 L280 220 L420 240 L480 320 L440 420 L200 460 L80 380 Z"/>
+          <path fill="url(#gCentro)" stroke="#8b7355" stroke-width="1"
+            d="M280 60 L680 40 L760 200 L720 340 L480 320 L420 240 Z"/>
+          <path fill="#d2c6a8" stroke="#8b7355" stroke-width="1"
+            d="M480 320 L720 340 L680 480 L440 420 Z"/>
+
+          <!-- Arno river -->
+          <path id="arno" fill="url(#gRiver)" stroke="#5a6570" stroke-width="1.2" opacity="0.92"
+            d="M40 300 Q200 260 400 275 T760 285 L760 315 Q520 305 400 302 T40 328 Z"/>
+          <text class="river-label" x="380" y="298" text-anchor="middle">Arno</text>
+
+          <!-- Decorative bridges -->
+          <path fill="#a09078" stroke="#5c4d3c" stroke-width="1"
+            d="M420 276 L460 276 L458 302 L422 302 Z"/>
+          <path fill="#b8a990" stroke="#5c4d3c" stroke-width="1"
+            d="M520 278 L580 278 L576 308 L524 308 Z"/>
+
+          <!-- Stylized streets -->
+          <g stroke="#b5a080" stroke-width="0.6" opacity="0.55" fill="none">
+            <path d="M320 80 L380 260"/>
+            <path d="M420 100 L440 220"/>
+            <path d="M560 120 L500 300"/>
+            <path d="M240 320 L360 360"/>
+            <path d="M180 380 L420 400"/>
+          </g>
+
+          <!-- Title cartouche -->
+          <rect x="48" y="36" width="200" height="56" fill="rgba(232,220,196,0.55)" stroke="#6b5344" stroke-width="1"/>
+          <text x="148" y="62" text-anchor="middle" class="label" font-size="13">Firenze</text>
+          <text x="148" y="78" text-anchor="middle" class="label" font-size="9" opacity="0.85">centræ Historia</text>
+
+          <!-- Compass rose -->
+          <g class="compass" transform="translate(700 72)">
+            <circle cx="0" cy="0" r="28" fill="rgba(232,220,196,0.4)" stroke="#6b5344"/>
+            <path d="M0 -20 L5 0 L0 20 L-5 0 Z" fill="#8b3a2f"/>
+            <text x="0" y="-34" text-anchor="middle" class="label" font-size="10">N</text>
+          </g>
+
+          <!-- Landmark: Duomo -->
+          <g id="spot-duomo">
+            <circle class="pin-ring" cx="380" cy="160" r="18"/>
+            <circle class="landmark-hit" cx="380" cy="160" r="14" tabindex="0" role="button"
+              aria-label="Собор Санта-Мария-дель-Фьоре"/>
+            <circle class="pin-dot" cx="380" cy="160" r="5"/>
+            <text x="380" y="192" text-anchor="middle" class="label">Duomo</text>
+          </g>
+
+          <!-- Landmark: Palazzo Vecchio -->
+          <g id="spot-palazzo">
+            <circle class="pin-ring" cx="460" cy="200" r="18"/>
+            <circle class="landmark-hit" cx="460" cy="200" r="14" tabindex="0" role="button"
+              aria-label="Палаццо Веккьо"/>
+            <circle class="pin-dot" cx="460" cy="200" r="5"/>
+            <text x="460" y="232" text-anchor="middle" class="label">Palazzo</text>
+          </g>
+
+          <!-- Landmark: Uffizi -->
+          <g id="spot-uffizi">
+            <circle class="pin-ring" cx="505" cy="248" r="18"/>
+            <circle class="landmark-hit" cx="505" cy="248" r="14" tabindex="0" role="button"
+              aria-label="Галерея Уффици"/>
+            <circle class="pin-dot" cx="505" cy="248" r="5"/>
+            <text x="505" y="280" text-anchor="middle" class="label">Uffizi</text>
+          </g>
+
+          <!-- Landmark: Ponte Vecchio -->
+          <g id="spot-ponte">
+            <circle class="pin-ring" cx="438" cy="288" r="18"/>
+            <circle class="landmark-hit" cx="438" cy="288" r="14" tabindex="0" role="button"
+              aria-label="Понте Веккьо"/>
+            <circle class="pin-dot" cx="438" cy="288" r="5"/>
+            <text x="438" y="320" text-anchor="middle" class="label">Ponte</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <p class="hint-bar">Нажмите на цветную отметку на карте, чтобы прочитать короткую справку.</p>
+  </div>
+
+  <div class="backdrop" id="backdrop" aria-hidden="true">
+    <article class="card" role="dialog" aria-modal="true" aria-labelledby="cardTitle" id="card">
+      <button type="button" class="card-close" id="cardClose" aria-label="Закрыть">&times;</button>
+      <h2 id="cardTitle"></h2>
+      <p class="lead" id="cardLead"></p>
+      <div id="cardBody"></div>
+    </article>
+  </div>
+
+  <script>
+(function () {
+  const DATA = {
+    duomo: {
+      title: "Санта-Мария-дель-Фьоре",
+      lead: "Главный собор Флоренции · XIII–XIX вв.",
+      paragraphs: [
+        "Купол Брунеллески стал символом Ренессанса: без лесов под центральный свод использовали спиральную кладку и инженерные решения, которые до сих пор изучают архитекторы.",
+        "Фасад в неоготическом виде завершили уже в XIX веке; до этого столетиями собор жил «необлицованным» обликом, который хорошо видно на старых гравюрах."
+      ]
+    },
+    palazzo: {
+      title: "Палаццо Веккьо",
+      lead: "Ратуша и символ гражданской власти · XIII в.",
+      paragraphs: [
+        "Массивная башня Арнольфо ди Камбио нависает над площадью Синьории — здесь заседали приоры республики; позже палаццо служило резиденцией Медичи.",
+        "Залы украшены фресками и скульптурой; на крыше открывается вид на город и как раз на купол собора."
+      ]
+    },
+    uffizi: {
+      title: "Галерея Уффици",
+      lead: "Музей у подножия Лоджии деи Ланци",
+      paragraphs: [
+        "Здание спроектировал Вазари как административный корпус («uffizi» — конторы); лёгкий коридор над Арно связывал его с Питти.",
+        "В коллекции — Боттичелли, Леонардо, Рафаэль и другие: очереди лучше бронировать заранее, но сам фасад во дворике Уффици уже стоит внимания."
+      ]
+    },
+    ponte: {
+      title: "Понте Веккьо",
+      lead: "Старый мост · магазины ювелиров с XIV в.",
+      paragraphs: [
+        "Единственный мост центра, переживший войну: при отступлении немецких войск его не взорвали — в отличие от соседних переправ.",
+        "Домики над водой изначально занимали мясники и другие ремесленники; позже их заменили золотых дел мастерами — традиция сохраняется."
+      ]
+    }
+  };
+
+  const backdrop = document.getElementById("backdrop");
+  const cardTitle = document.getElementById("cardTitle");
+  const cardLead = document.getElementById("cardLead");
+  const cardBody = document.getElementById("cardBody");
+  const btnClose = document.getElementById("cardClose");
+
+  function openCard(key) {
+    const d = DATA[key];
+    if (!d) return;
+    cardTitle.textContent = d.title;
+    cardLead.textContent = d.lead;
+    cardBody.innerHTML = d.paragraphs
+      .map(function (p) { return "<p>" + escapeHtml(p) + "</p>"; })
+      .join("");
+    backdrop.classList.add("is-open");
+    backdrop.setAttribute("aria-hidden", "false");
+    btnClose.focus();
+  }
+
+  function closeCard() {
+    backdrop.classList.remove("is-open");
+    backdrop.setAttribute("aria-hidden", "true");
+  }
+
+  function escapeHtml(s) {
+    const x = document.createElement("div");
+    x.textContent = s;
+    return x.innerHTML;
+  }
+
+  const spots = [
+    { id: "duomo", key: "duomo" },
+    { id: "palazzo", key: "palazzo" },
+    { id: "uffizi", key: "uffizi" },
+    { id: "ponte", key: "ponte" }
+  ];
+
+  spots.forEach(function (s) {
+    const el = document.querySelector("#spot-" + s.id + " .landmark-hit");
+    if (!el) return;
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      openCard(s.key);
+    });
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openCard(s.key);
+      }
+    });
+  });
+
+  btnClose.addEventListener("click", closeCard);
+  backdrop.addEventListener("click", function (e) {
+    if (e.target === backdrop) closeCard();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && backdrop.classList.contains("is-open")) closeCard();
+  });
+})();
+  </script>
+</body>
+</html>
