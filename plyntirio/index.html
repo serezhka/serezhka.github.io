@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="theme-color" content="#ffffff"/>
+  <meta name="description" content="Режимы стиральной машины — греческий и русский"/>
+  <title>Пλυντήριο — режимы стирки</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --machine: #e8eaed;
+      --machine-dark: #c8cdd3;
+      --drum-outer: #b8bec6;
+      --drum-inner: #9aa3ad;
+      --drum-hole: #7a8490;
+      --line: #3d4349;
+      --text: #1f2328;
+      --text-muted: #5c6370;
+      --accent: #2f3640;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      padding: max(0.75rem, env(safe-area-inset-top))
+               max(0.75rem, env(safe-area-inset-right))
+               max(1rem, env(safe-area-inset-bottom))
+               max(0.75rem, env(safe-area-inset-left));
+    }
+    .page {
+      max-width: 44rem;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+      font-weight: 400;
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.02em;
+    }
+    .sub {
+      text-align: center;
+      font-size: clamp(0.72rem, 2.5vw, 0.82rem);
+      color: #8a9199;
+      margin-bottom: 0.75rem;
+    }
+    .diagram-wrap {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .label-gr {
+      font-size: 11.5px;
+      font-weight: 600;
+      fill: var(--text);
+    }
+    .label-ru {
+      font-size: 9.5px;
+      font-weight: 400;
+      fill: var(--text-muted);
+    }
+    .label-temp {
+      font-size: 12px;
+      font-weight: 700;
+      fill: var(--text);
+    }
+    .legend-toggle {
+      display: block;
+      width: 100%;
+      max-width: 680px;
+      margin: 1rem auto 0;
+      padding: 0.65rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: #f4f5f6;
+      border: 1px solid #e2e4e8;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .legend-toggle:focus-visible {
+      outline: 2px solid #6b9bd1;
+      outline-offset: 2px;
+    }
+    .legend {
+      max-width: 680px;
+      margin: 0.75rem auto 0;
+      display: none;
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+      font-size: 0.82rem;
+    }
+    .legend.open { display: grid; }
+    .legend-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      padding: 0.45rem 0.65rem;
+      background: #fafbfc;
+      border-radius: 6px;
+      border-bottom: 1px solid #eef0f2;
+    }
+    .legend-row .gr { color: var(--text); font-weight: 600; }
+    .legend-row .ru { color: var(--text-muted); }
+    @media (min-width: 520px) {
+      .legend { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Πλυντήριο ρούχων · Стиральная машина</h1>
+    <p class="sub">Режимы · Ελληνικά / Русский</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схема режимов стиральной машины">
+        <defs>
+          <radialGradient id="panel" cx="50%" cy="42%" r="65%">
+            <stop offset="0%" stop-color="#f0f1f3"/>
+            <stop offset="100%" stop-color="#d8dce0"/>
+          </radialGradient>
+          <radialGradient id="drumOuter" cx="45%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#cfd4da"/>
+            <stop offset="55%" stop-color="#aeb6bf"/>
+            <stop offset="100%" stop-color="#8f99a3"/>
+          </radialGradient>
+          <radialGradient id="drumGlass" cx="42%" cy="38%" r="50%">
+            <stop offset="0%" stop-color="#dde1e6"/>
+            <stop offset="70%" stop-color="#b5bdc6"/>
+            <stop offset="100%" stop-color="#95a0aa"/>
+          </radialGradient>
+          <radialGradient id="drumInner" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#c4cad1"/>
+            <stop offset="100%" stop-color="#88929c"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Machine panel -->
+        <rect x="24" y="24" width="632" height="632" rx="18" fill="url(#panel)" stroke="#bfc5cc" stroke-width="1.2"/>
+        <rect x="44" y="44" width="592" height="56" rx="6" fill="#dfe2e6" stroke="#c5cad0" stroke-width="0.8"/>
+
+        <!-- Drum housing -->
+        <circle cx="340" cy="360" r="188" fill="#d5d9de" stroke="#a8b0b8" stroke-width="1.5"/>
+        <circle cx="340" cy="360" r="168" fill="url(#drumOuter)" stroke="#98a2ab" stroke-width="1.2"/>
+        <circle cx="340" cy="360" r="148" fill="url(#drumGlass)" stroke="#8a939c" stroke-width="1"/>
+        <circle cx="340" cy="360" r="118" fill="url(#drumInner)" stroke="#707a84" stroke-width="0.8"/>
+
+        <!-- Drum perforations -->
+        <g fill="#6e7882" opacity="0.55">
+          <circle cx="340" cy="268" r="3.2"/>
+          <circle cx="365" cy="275" r="3.2"/><circle cx="315" cy="275" r="3.2"/>
+          <circle cx="388" cy="288" r="3.2"/><circle cx="292" cy="288" r="3.2"/>
+          <circle cx="408" cy="308" r="3.2"/><circle cx="272" cy="308" r="3.2"/>
+          <circle cx="422" cy="332" r="3.2"/><circle cx="258" cy="332" r="3.2"/>
+          <circle cx="428" cy="360" r="3.2"/><circle cx="252" cy="360" r="3.2"/>
+          <circle cx="422" cy="388" r="3.2"/><circle cx="258" cy="388" r="3.2"/>
+          <circle cx="408" cy="412" r="3.2"/><circle cx="272" cy="412" r="3.2"/>
+          <circle cx="388" cy="432" r="3.2"/><circle cx="292" cy="432" r="3.2"/>
+          <circle cx="365" cy="445" r="3.2"/><circle cx="315" cy="445" r="3.2"/>
+          <circle cx="340" cy="452" r="3.2"/>
+        </g>
+
+        <!-- Door rim highlight -->
+        <circle cx="340" cy="360" r="148" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2"/>
+        <circle cx="340" cy="360" r="168" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+
+        <!-- Door handle -->
+        <rect x="478" y="344" width="22" height="32" rx="5" fill="#b0b8c0" stroke="#909aa4" stroke-width="0.8"/>
+
+        <!-- Leader lines + labels (match original dial layout) -->
+
+        <!-- TOP CENTER: Cotton -->
+        <line x1="340" y1="172" x2="340" y2="218" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="340" y="158" text-anchor="middle" class="label-gr">Βαμβακερά</text>
+        <text x="340" y="146" text-anchor="middle" class="label-ru">Хлопок</text>
+
+        <!-- TOP RIGHT: Pre-wash -->
+        <line x1="448" y1="198" x2="418" y2="228" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="492" y="186" text-anchor="middle" class="label-gr">+ Πρόπλυση</text>
+        <text x="492" y="174" text-anchor="middle" class="label-ru">+ Предварительная стирка</text>
+
+        <!-- RIGHT: ECO -->
+        <line x1="498" y1="268" x2="468" y2="288" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="548" y="258" text-anchor="middle" class="label-temp">ECO 40–60</text>
+        <text x="548" y="272" text-anchor="middle" class="label-ru">Эко 40–60°C</text>
+
+        <!-- RIGHT: 20°C -->
+        <line x1="518" y1="328" x2="488" y2="338" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="568" y="328" text-anchor="middle" class="label-temp">20°C</text>
+        <text x="568" y="342" text-anchor="middle" class="label-ru">20°C</text>
+
+        <!-- RIGHT: Delicates -->
+        <line x1="512" y1="388" x2="482" y2="382" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="562" y="384" text-anchor="middle" class="label-gr">Ευαίσθητα</text>
+        <text x="562" y="398" text-anchor="middle" class="label-ru">Деликатная</text>
+
+        <!-- RIGHT: Drum clean -->
+        <line x1="488" y1="442" x2="462" y2="424" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="548" y="436" text-anchor="middle" class="label-gr">Καθαρισμός κάδου</text>
+        <text x="548" y="450" text-anchor="middle" class="label-ru">Очистка барабана</text>
+
+        <!-- RIGHT BOTTOM: Spin only -->
+        <line x1="458" y1="492" x2="436" y2="468" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="518" y="492" text-anchor="middle" class="label-gr">Μόνο σύψιμο</text>
+        <text x="518" y="506" text-anchor="middle" class="label-ru">Только отжим</text>
+
+        <!-- BOTTOM RIGHT: Rinse & spin -->
+        <line x1="400" y1="528" x2="386" y2="498" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="430" y="542" text-anchor="middle" class="label-gr">Ξέβγαλμα &amp; σύψιμο</text>
+        <text x="430" y="556" text-anchor="middle" class="label-ru">Полоскание и отжим</text>
+
+        <!-- BOTTOM LEFT: Anti-allergenic + icon -->
+        <line x1="292" y1="528" x2="310" y2="498" stroke="#3d4349" stroke-width="0.9"/>
+        <g transform="translate(168, 528)">
+          <circle cx="0" cy="-8" r="7" fill="none" stroke="#3d4349" stroke-width="0.8"/>
+          <path d="M-4,-8 Q0,-14 4,-8" fill="none" stroke="#3d4349" stroke-width="0.8"/>
+          <line x1="0" y1="-1" x2="0" y2="4" stroke="#3d4349" stroke-width="0.8"/>
+        </g>
+        <text x="218" y="536" text-anchor="middle" class="label-gr">Αντιαλλεργικό</text>
+        <text x="218" y="550" text-anchor="middle" class="label-ru">Гипоаллергенная</text>
+
+        <!-- LEFT BOTTOM: Bedding + icon -->
+        <line x1="228" y1="492" x2="256" y2="468" stroke="#3d4349" stroke-width="0.9"/>
+        <g transform="translate(118, 492)" stroke="#3d4349" stroke-width="0.75" fill="none">
+          <rect x="-8" y="-10" width="16" height="10" rx="1"/>
+          <path d="M-6,-10 L-6,-16 L6,-16 L6,-10"/>
+        </g>
+        <text x="118" y="506" text-anchor="middle" class="label-gr">Κλινοσκεπάσματα</text>
+        <text x="118" y="520" text-anchor="middle" class="label-ru">Постельное бельё</text>
+
+        <!-- LEFT LOWER: Standard + icon -->
+        <line x1="192" y1="442" x2="222" y2="424" stroke="#3d4349" stroke-width="0.9"/>
+        <g transform="translate(108, 436)" fill="none" stroke="#3d4349" stroke-width="0.75">
+          <path d="M-5,-6 L0,-10 L5,-6 L5,4 L-5,4 Z"/>
+        </g>
+        <text x="108" y="450" text-anchor="middle" class="label-gr">Ενταξιακό</text>
+        <text x="108" y="464" text-anchor="middle" class="label-ru">Повседневная</text>
+
+        <!-- LEFT MID: Sport -->
+        <line x1="168" y1="388" x2="198" y2="382" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="108" y="384" text-anchor="middle" class="label-gr">Αθλητικά</text>
+        <text x="108" y="398" text-anchor="middle" class="label-ru">Спортивная одежда</text>
+
+        <!-- LEFT: Shirts -->
+        <line x1="162" y1="328" x2="192" y2="338" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="98" y="328" text-anchor="middle" class="label-gr">Πουκάμισα</text>
+        <text x="98" y="342" text-anchor="middle" class="label-ru">Рубашки</text>
+
+        <!-- LEFT UPPER: Wool -->
+        <line x1="182" y1="268" x2="212" y2="288" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="118" y="258" text-anchor="middle" class="label-gr">Μάλλινα</text>
+        <text x="118" y="272" text-anchor="middle" class="label-ru">Шерсть</text>
+
+        <!-- LEFT TOP: Quick -->
+        <line x1="232" y1="218" x2="258" y2="242" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="178" y="206" text-anchor="middle" class="label-gr">Γρήγορο</text>
+        <text x="178" y="192" text-anchor="middle" class="label-ru">Быстрая стирка</text>
+
+        <!-- LEFT TOP: Mixed -->
+        <line x1="278" y1="192" x2="298" y2="228" stroke="#3d4349" stroke-width="0.9"/>
+        <text x="228" y="178" text-anchor="middle" class="label-gr">Μικτή πλύση</text>
+        <text x="228" y="164" text-anchor="middle" class="label-ru">Смешанная стирка</text>
+      </svg>
+    </div>
+
+    <button type="button" class="legend-toggle" id="legendToggle" aria-expanded="false">
+      Показать таблицу перевода
+    </button>
+    <div class="legend" id="legend" aria-hidden="true">
+      <div class="legend-row"><span class="gr">Μικτή πλύση</span><span class="ru">Смешанная стирка</span></div>
+      <div class="legend-row"><span class="gr">Γρήγορο</span><span class="ru">Быстрая стирка</span></div>
+      <div class="legend-row"><span class="gr">Μάλλινα</span><span class="ru">Шерсть</span></div>
+      <div class="legend-row"><span class="gr">Πουκάμισα</span><span class="ru">Рубашки</span></div>
+      <div class="legend-row"><span class="gr">Αθλητικά</span><span class="ru">Спортивная одежда</span></div>
+      <div class="legend-row"><span class="gr">Ενταξιακό</span><span class="ru">Повседневная</span></div>
+      <div class="legend-row"><span class="gr">Κλινοσκεπάσματα</span><span class="ru">Постельное бельё</span></div>
+      <div class="legend-row"><span class="gr">Βαμβακερά</span><span class="ru">Хлопок</span></div>
+      <div class="legend-row"><span class="gr">+ Πρόπλυση</span><span class="ru">+ Предварительная стирка</span></div>
+      <div class="legend-row"><span class="gr">ECO 40–60</span><span class="ru">Эко 40–60°C</span></div>
+      <div class="legend-row"><span class="gr">20°C</span><span class="ru">20°C</span></div>
+      <div class="legend-row"><span class="gr">Ευαίσθητα</span><span class="ru">Деликатная стирка</span></div>
+      <div class="legend-row"><span class="gr">Καθαρισμός κάδου</span><span class="ru">Очистка барабана</span></div>
+      <div class="legend-row"><span class="gr">Μόνο σύψιμο</span><span class="ru">Только отжим</span></div>
+      <div class="legend-row"><span class="gr">Ξέβγαλμα &amp; σύψιμο</span><span class="ru">Полоскание и отжим</span></div>
+      <div class="legend-row"><span class="gr">Αντιαλλεργικό</span><span class="ru">Гипоаллергенная</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("legendToggle");
+      var legend = document.getElementById("legend");
+      btn.addEventListener("click", function () {
+        var open = legend.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        legend.setAttribute("aria-hidden", open ? "false" : "true");
+        btn.textContent = open ? "Скрыть таблицу перевода" : "Показать таблицу перевода";
+      });
+    })();
+  </script>
+</body>
+</html>
