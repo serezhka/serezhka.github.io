@@ -2,10 +2,7 @@
 
 source "https://rubygems.org"
 
-# jekyll-theme-chirpy ≥ 7.1 requires Ruby ~> 3.1 (not 4.x as of Chirpy 7.4)
-ruby ">= 3.1", "< 4.0"
-
-gem "jekyll-theme-chirpy", "~> 7.4", ">= 7.4.1"
+gem "jekyll-theme-chirpy", "~> 7.6"
 
 gem "html-proofer", "~> 5.1.1", group: :test
 
