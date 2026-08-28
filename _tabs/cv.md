@@ -1,11 +1,9 @@
 ---
 layout: cv
 style: cv
-title: Curriculum Vitae
-date: 2022-10-12
-last_modified_at: 2025-07-16
-tags: [cv]
-pin: true
+title: CV
+icon: fas fa-user
+order: 0
 ---
 
 [<i class="fa-solid fa-file-pdf"></i>]({{ site.url }}/assets/pdf/sergei_fedorov_cv.pdf)
@@ -149,5 +147,3 @@ _Established in 1987 by a group of scientists from the Ioffe Physical-Technical 
 <i class="fas fa-plane-departure"></i> Have been to many places and can confidently say that my favourite one is Bali. It impressed me by its chilled ambience, positive people and wonderful vantages
 
 <i class="fab fa-raspberry-pi"></i> If something requires more than a couple of minutes of my time, and I know that it will need to be repeated in the future, then I try to automate it, write a script
-
-
