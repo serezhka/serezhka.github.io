@@ -24,3 +24,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.post-support-link {
+  display: inline-block;
+  width: 217px;
+  height: 60px;
+  background: url("https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=srzhka&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff")
+    no-repeat center / contain;
+  text-indent: -9999px;
+  overflow: hidden;
+}
