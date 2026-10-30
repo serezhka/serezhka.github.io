@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Samsung Tizen TV — root, disk access, mic, and cold-boot autostart (QE65Q70C)
+title: Samsung Tizen TV — root, disk, mic, and cold-boot autostart (QE65Q70C)
 date: 2026-10-23
 last_modified_at: 2026-10-30
 categories: [Hack]
-tags: [samsung, tizen, tv, root, sdb, archive-root, uep, smack, systemd, microphone]
+tags: [samsung, tizen, tv, root, sdb, archive-root, uep, smack, systemd, microphone, partner, on-boot]
 ---
 
 ## Goal
@@ -16,7 +16,7 @@ Lab notes on **getting useful privilege** on a retail Samsung Smart TV — not �
 3. capture the **built-in / USB microphones** without a UI app;
 4. **autostart a process after unplug** (real cold boot), without a host babysitter.
 
-No product feature description here — only access boundaries and the hacks that work around them.
+Access boundaries and hacks only — no product / app feature walkthrough.
 
 Verified on:
 
@@ -187,28 +187,79 @@ Notes from this lab:
 
 - Prefer **`--file-format=raw`** when piping PCM; default Wave headers corrupt a continuous stream.
 - `sdk` already has recorder-related groups — enough for many capture experiments before full root.
-- Soft power / Instant On is unrelated to whether Pulse devices exist after a cold boot; after unplug the capture daemon/path must be started again by whatever you autostart (§4).
+- Soft power / Instant On is unrelated to whether Pulse devices exist after a cold boot; after unplug the capture path must be started again by whatever you autostart (§4).
 
 ## 4. Autostart that survives unplug
 
-Two mechanisms matter. They solve different layers.
+Two mechanisms. They stack; for native long-lived processes prefer **B**.
 
 ### A. Partner-signed Web Service (`on-boot`)
 
-A Tizen **Web Service** (`http://tizen.org/feature/web.service`) with `on-boot="true"` + `auto-restart="true"` is the platform-documented background worker. On a commercial TV:
+A normal UI app with `background-support="enable"` is still a UI process. Samsung’s background worker is a **Web Service** (`http://tizen.org/feature/web.service`) with `on-boot` / `auto-restart`:
+
+```xml
+<tizen:feature name="http://tizen.org/feature/web.service"/>
+
+<tizen:privilege name="http://tizen.org/privilege/internet"/>
+<tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+<tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+<tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
+<access origin="*" subdomains="true"/>
+
+<tizen:background-category value="background-network"/>
+
+<tizen:service id="YourPkg.Service" auto-restart="true" on-boot="true" type="ui">
+  <tizen:content src="service/service.js"/>
+  <tizen:name>LabKeeper</tizen:name>
+  <tizen:description>Cold-boot keeper</tizen:description>
+  <tizen:icon src="icon.png"/>
+  <tizen:category name="http://tizen.org/category/service"/>
+</tizen:service>
+```
+
+Package part of the ID is typically **≤ 10 characters**. Reuse a stable package id for updates — churning new ids can trip pkgmgr (“Load archive info fail”) on this TV.
+
+#### Public vs Partner
+
+`on-boot="true"` in XML is **not** enough on a commercial TV:
 
 | Distributor privilege | Runs when launched | Survives Instant On | Auto-start after **cold boot** |
 |--|--|--|--|
 | **Public** | yes | yes | **no** |
 | **Partner** (DUID-bound) | yes | yes | **yes** |
 
-`on-boot` in XML alone is not enough — you need a **Partner** distributor cert for that DUID. Public installs fine but stays dead after unplug until something launches the package again.
+Partner for **testing**: normal Samsung developer account → distributor cert privilege **Partner** → attach TV **DUID** (`URN:tizen:deviceid=…` in SAN). Store publishing is separate; DUID sideload is enough for a lab set.
 
-From `service.js`, prefer **`child_process.execFile` / `spawn`**. `exec(…)` → `/bin/sh` often returns **`EACCES`** after cold boot. Smack also blocks reading some `User`-labeled files under `/opt/usr/share/systemd` from the WGT context; files under **`/opt/usr/home/owner/…`** (`User::Home`) are the safer source.
+#### Certs / package / install
 
-Details, certs, and packaging pitfalls: [autostart a custom Web Service on boot](/posts/samsung-tizen-tv-web-service-on-boot/).
+1. Developer Mode (same as §1).
+2. `sdb capability` — note DUID.
+3. Author cert (keep stable) + Partner distributor cert with that DUID.
+4. If `tizen package` says **Invalid password** on a fresh `.p12`, re-export legacy PKCS#12 (3DES / SHA1). AES-PBES2 often breaks the Java signer.
+5. Build / install:
 
-Ghost / fake-UI always-on apps are a bad idea on this panel — the platform watchdog can blank the screen after wake.
+```shell
+rm -f *.wgt author-signature.xml signature1.xml .manifest.tmp
+tizen package -t wgt -s <PartnerProfile> -- <project-dir>
+tizen install -n YourApp.wgt -s <tv-host>:26101
+```
+
+Do **not** `tizen run` when testing auto-start. With Partner + `on-boot`, the service should start after install/update and again after unplug. `sdb` can stay offline until the TV is fully awake — that does not block `on-boot`.
+
+#### WGT limits after cold boot
+
+| Works | Often fails |
+|-------|-------------|
+| Service `onStart` (Partner) | `child_process.exec` → `/bin/sh` → **`EACCES`** |
+| `execFile` / `spawn` of stock binaries | Blind trust in system `systemctl` from WGT |
+| `app_launcher -s …` | Reading Smack **`User`** files under `/opt/usr/share/systemd` |
+| Read/write `/opt/usr/home/owner/…` | Unsigned `/opt/.../*.sh` as a program (UEP) |
+
+Keeper pattern: keep copies under **owner home**, call `systemctl --user …` via `execFile` with `XDG_RUNTIME_DIR` / session bus env. Treat WGT as best-effort; durable native workers belong in §4B.
+
+Ghost / fake always-on UI apps: platform watchdog can blank the panel after wake — avoid.
+
+Consumer QLED is not SSSP: no “URL Launcher / Auto Start Application” menu. Autostart is Web Service + Partner and/or user-systemd, not a Home-screen toggle. `auto-restart` helps after crashes; it does **not** replace Partner for boot.
 
 ### B. Owner `systemd --user` (authoritative for native processes)
 
@@ -247,11 +298,11 @@ RestartSec=3
 WantedBy=default.target
 ```
 
-Install from root: write the unit files + wants symlinks, then talk to the user manager (example: `nsenter` into the `systemd --user` PID as uid 5001) and run `systemctl --user daemon-reload && enable --now …`.
+Install from root: write the unit files + wants symlinks, then talk to the user manager (e.g. `nsenter` into the `systemd --user` PID as uid 5001) and run `systemctl --user daemon-reload && enable --now …`.
 
-Do **not** put `User=root` in a user unit — the manager already runs as 5001. Keep privileged one-shots out of this path or accept owner-level capabilities only.
+Do **not** put `User=root` in a user unit — the manager already runs as 5001.
 
-Partner WGT can still help as a keeper (`systemctl --user restart` / ensure unit files exist), but the **source of truth for native cold boot** is the enabled user unit under `~/.config/systemd/user/`.
+Partner WGT can still help as a keeper, but the **source of truth for native cold boot** is the enabled user unit under `~/.config/systemd/user/`.
 
 ## 5. What this is not
 
@@ -275,6 +326,6 @@ Partner WGT can still help as a keeper (`systemctl --user restart` / ensure unit
 
 - [chris-ritsen/samsung-tv-root](https://github.com/chris-ritsen/samsung-tv-root) — `archive-root` docs
 - Bishop Fox / public write-ups of **SVE-2025-50109**
-- Companion: [Samsung Tizen TV — autostart a custom Web Service on boot](/posts/samsung-tizen-tv-web-service-on-boot/)
 - [Tizen — Service application (Web)](https://docs.tizen.org/application/web/guides/applications/service-app/)
-- [Samsung — Creating certificates](https://developer.samsung.com/smarttv/develop/getting-started/setting-up-sdk/creating-certificates.html) / Partner privilege FAQ
+- [Samsung — Creating certificates](https://developer.samsung.com/smarttv/develop/getting-started/setting-up-sdk/creating-certificates.html)
+- [Samsung — Privileges FAQ](https://developer.samsung.com/smarttv/develop/faq/privileges.html)
